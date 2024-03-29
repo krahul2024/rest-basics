@@ -13,9 +13,11 @@ import (
 func main() {
 	l := log.New(os.Stdout, "\nExample API\n", log.LstdFlags) // logger initialization
 	indexHandler := handlers.NewIndex(l)
+	productsHandler := handlers.NewProducts(l)
 
 	mux := http.NewServeMux()
 	mux.Handle("/", indexHandler)
+	mux.Handle("/products", productsHandler)
 
 	server := &http.Server{
 		Addr:         ":3300",
@@ -52,3 +54,4 @@ func main() {
 }
 
 // read more about graceful shutdown implementation
+// read more about the json serialization
