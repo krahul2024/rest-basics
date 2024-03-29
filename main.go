@@ -46,6 +46,9 @@ func main() {
 		w.Write(jsonResponse)
 	})
 
+	// profiles route
+	router.HandleFunc("/profiles", addItem).Methods("POST")
+
 	server := &http.Server{
 		Handler: router,
 		Addr:    ":" + port,
@@ -68,4 +71,8 @@ type Profile struct {
 	Department  string `json:"department"`
 	Designation string `json:"designation"`
 	Employee    User   `json:"employee"`
+}
+
+func addItem(q http.ResponseWriter, r *http.Request) {
+
 }
