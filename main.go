@@ -2,28 +2,25 @@ package main
 
 import (
 	"fmt"
+	"io"
+	"log"
 	"net/http"
-	"os"
-
-	"github.com/joho/godotenv"
 )
 
 func main() {
-	godotenv.Load(".env")
-	PORT := os.Getenv("PORT")
+	fmt.Println("Hello!")
 
-	server := &http.Server{
-		Addr:    ":" + PORT,
-		Handler: http.HandlerFunc(basicHandler),
-	}
+	http.HandleFunc("/", indexFunction)
 
-	err := server.ListenAndServe()
-	if err != nil {
-		fmt.Println("There was an error running the server")
-	}
+	log.Fatal(http.ListenAndServe(":3300", nil))
 }
 
-func basicHandler(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Welcome to the index page!"))
-
+func indexFunction(res http.ResponseWriter, req *http.Request) {
+	data, err := io.ReadAll(req.Body)
+	if err != nil {
+		http.Error(res, "An error occured", http.StatusBadRequest)
+		return
+	}
+	log.Printf("%s", data)
+	res.Write([]byte("This is index page..." + string(data)))
 }
