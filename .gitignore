@@ -11,8 +11,9 @@ rest-basics
 *.test
 *.out
 
-/vendor/
-/go.sum
+vendor/
+go.sum
+
 
 /bin/
 /pkg/
