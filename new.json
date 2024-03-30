@@ -1,0 +1,27 @@
+{
+    "Method": "GET",
+    "URL": "/products",
+    "Proto": "HTTP/1.1",
+    "ProtoMajor": 1,
+    "ProtoMinor": 1,
+    "Header": {
+        "Accept": ["*/*"],
+        "User-Agent": ["curl/7.81.0"]
+    },
+    "Body": {},
+    "GetBody": null,
+    "ContentLength": 0,
+    "TransferEncoding": [],
+    "Close": false,
+    "Host": "localhost:3300",
+    "Form": {},
+    "PostForm": {},
+    "MultipartForm": null,
+    "Trailer": {},
+    "RemoteAddr": "127.0.0.1:41516",
+    "RequestURI": "/products",
+    "TLS": null,
+    "Cancel": null,
+    "Response": null,
+    "ctx": "0xc00028c0c0"
+}

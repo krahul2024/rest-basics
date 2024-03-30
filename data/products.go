@@ -1,6 +1,10 @@
 package data
 
-import "time"
+import (
+	"encoding/json"
+	"io"
+	"time"
+)
 
 type Product struct {
 	Id          int     `json:"id"`
@@ -10,6 +14,11 @@ type Product struct {
 	InternalId  string  `json:"internalId"`
 	CreatedAt   string  `json:"createdAt"`
 	UpdatedAt   string  `json:"updatedAt"`
+}
+
+func (p *Product) FromJson(ir io.Reader) error {
+	e := json.NewDecoder(ir)
+	return e.Decode(p)
 }
 
 var productList = []*Product{
@@ -107,4 +116,14 @@ var productList = []*Product{
 
 func GetProducts() []*Product {
 	return productList
+}
+
+func AddProduct(product *Product) *Product {
+	product.Id = len(productList) + 1
+	productList = append(productList, product)
+	return productList[len(productList)-1]
+}
+
+func UpdateProduct(id int) *Product {
+	return productList[id]
 }

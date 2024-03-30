@@ -17,7 +17,7 @@ func main() {
 
 	mux := http.NewServeMux()
 	mux.Handle("/", indexHandler)
-	mux.Handle("/products", productsHandler)
+	mux.Handle("/products/", productsHandler)
 
 	server := &http.Server{
 		Addr:         ":3300",
