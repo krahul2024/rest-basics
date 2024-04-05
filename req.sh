@@ -15,4 +15,4 @@ curl -v -X PUT \
         "CreatedAt":   "'"$created_at"'",
         "UpdatedAt":   "'"$updated_at"'"
     }' \
-    localhost:3300/products/34
+    localhost:3300/products/3

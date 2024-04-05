@@ -2,13 +2,13 @@ package handlers
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
 	"rest-basics/data"
 	"rest-basics/utils"
 	"strconv"
-	"strings"
+
+	"github.com/gorilla/mux"
 )
 
 type Products struct {
@@ -19,34 +19,7 @@ func NewProducts(l *log.Logger) *Products {
 	return &Products{l}
 }
 
-func (p *Products) ServeHTTP(res http.ResponseWriter, req *http.Request) {
-	// reqParams := utils.GetParams(req)
-	fmt.Println(req.Method)
-	if req.Method == http.MethodGet {
-		p.getProducts(res, req)
-		return
-	}
-	if req.Method == http.MethodPost {
-		p.addProduct(res, req)
-		return
-	}
-	if req.Method == http.MethodPut {
-		// this is for getting the products or the url should be something like /products/id
-		urlParts := strings.Split(req.URL.String(), "/")
-		if len(urlParts) != 3 {
-			http.Error(res, "There was an error!", http.StatusBadRequest)
-			return
-		}
-		id, err := strconv.Atoi(urlParts[2])
-		if err != nil {
-			http.Error(res, "There was an error!", http.StatusBadRequest)
-			return
-		}
-		p.updateProduct(id-1, res, req)
-	}
-}
-
-func (p *Products) getProducts(res http.ResponseWriter, req *http.Request) {
+func (p *Products) GetProducts(res http.ResponseWriter, req *http.Request) {
 	p.l.Println("Get Product route called!")
 	productsList := data.GetProducts()
 	jsonData, err := json.Marshal(productsList) // we can also use encoder to encode which is faster
@@ -57,7 +30,7 @@ func (p *Products) getProducts(res http.ResponseWriter, req *http.Request) {
 	res.Write(jsonData)
 }
 
-func (p *Products) addProduct(res http.ResponseWriter, req *http.Request) {
+func (p *Products) AddProduct(res http.ResponseWriter, req *http.Request) {
 	p.l.Println("Add product route called!")
 	product := &data.Product{}
 	err := product.FromJson(req.Body)
@@ -75,7 +48,10 @@ func (p *Products) addProduct(res http.ResponseWriter, req *http.Request) {
 	res.Write(jsonData)
 }
 
-func (p *Products) updateProduct(id int, res http.ResponseWriter, req *http.Request) {
+func (p *Products) UpdateProduct(res http.ResponseWriter, req *http.Request) {
+	params := mux.Vars(req)
+	id, _ := strconv.Atoi(params["id"])
+	id -= 1
 	p.l.Println("Update product route called!")
 	product := data.UpdateProduct(id)
 	utils.PrettyJSON(product)
